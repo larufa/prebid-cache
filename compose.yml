@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  server:
+    build:
+      context: .
+      args:
+        config: config-compose.yaml
+    image: 842219805526.dkr.ecr.ap-northeast-1.amazonaws.com/prebid-server:latest
+    ports:
+      - "2424:2424"
+      - "2525:2525"
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:latest
+    volumes:
+      - redis:/data
+
+volumes:
+  redis:
