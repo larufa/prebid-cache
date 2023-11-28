@@ -1,4 +1,5 @@
 port: 2424
+admin_port: 2525
 log:
   level: "info"
 rate_limiter:
@@ -13,7 +14,7 @@ request_limits:
 backend:
   type: "redis"
   redis:
-    host: "127.0.0.1"
+    host: "redis" # same as service name in compose.yml
     port: 6379
     password: ""
     db: 0

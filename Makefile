@@ -21,6 +21,15 @@ build: test
 	CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo  .
 
 # Build a docker image which runs the binary
-image: build
-	docker build -t prebid-cache .
+image:
+	docker compose build
 
+up:
+	docker compose up
+
+test/put:
+	curl -X POST -H "Content-Type: application/json" -d '{"puts": [{"type": "xml", "value": "<VAST>test</VAST>"}]}' http://127.0.0.1:2424/cache
+
+test/get: UUID:=
+test/get:
+	curl http://127.0.0.1:2424/cache?uuid=${UUID}

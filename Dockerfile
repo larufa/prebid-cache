@@ -25,6 +25,7 @@ RUN go build -mod=vendor -ldflags "-X github.com/prebid/prebid-cache/version.Ver
 
 FROM ubuntu:20.04 AS release
 LABEL maintainer="hans.hjort@xandr.com" 
+ARG config="config.yaml"
 RUN apt-get update && \
     apt-get install --assume-yes apt-utils && \
     apt-get install -y ca-certificates && \
@@ -32,7 +33,7 @@ RUN apt-get update && \
 WORKDIR /usr/local/bin/
 COPY --from=build /app/prebid-cache/prebid-cache .
 RUN chmod a+xr prebid-cache
-COPY --from=build /app/prebid-cache/config.yaml .
+COPY --from=build /app/prebid-cache/$config ./config.yaml
 RUN chmod a+r config.yaml
 RUN adduser prebid_user
 USER prebid_user
